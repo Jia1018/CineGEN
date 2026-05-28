@@ -18,7 +18,7 @@ Run::
 
     python scripts/build_eval_pack.py \\
         --raw_root /workspace/writeable/datasets/DIY_movies \\
-        --out_dir data/cinegen-eval
+        --out_dir data/cinescript-eval
 """
 
 from __future__ import annotations

@@ -1,7 +1,7 @@
 """
 Eval-time dataset for CineGen.
 
-The published eval pack (released on HF Hub at `Ziqi1018/CineGen-eval`) has the
+The published eval pack (released on HF Hub at `Ziqi1018/CineScript-eval`) has the
 following layout:
 
     <root>/

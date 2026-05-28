@@ -12,7 +12,7 @@ Usage
 
     python scripts/infer_random_mask.py \\
         --ckpt checkpoints/cinegen/best.pt \\
-        --data_root data/cinegen-eval \\
+        --data_root data/cinescript-eval \\
         --out_dir results/cinegen-generated_randmask
 """
 

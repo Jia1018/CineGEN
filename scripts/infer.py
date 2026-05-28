@@ -11,7 +11,7 @@ Usage
 
     python scripts/infer.py \\
         --ckpt checkpoints/cinegen/best.pt \\
-        --data_root data/cinegen-eval \\
+        --data_root data/cinescript-eval \\
         --out_dir results/cinegen-generated \\
         --batch_size 32
 

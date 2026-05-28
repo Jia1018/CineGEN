@@ -35,15 +35,15 @@ snapshot_download(repo_id='Ziqi1018/CineGen-ckpts',
 fi
 
 if [[ "$WHAT" == "data" || "$WHAT" == "all" ]]; then
-    echo "=== Downloading eval data from Ziqi1018/CineGen-eval ==="
+    echo "=== Downloading eval data from Ziqi1018/CineScript-eval ==="
     python -c "
 from huggingface_hub import snapshot_download
-snapshot_download(repo_id='Ziqi1018/CineGen-eval',
+snapshot_download(repo_id='Ziqi1018/CineScript-eval',
                   repo_type='dataset',
-                  local_dir='${ROOT}/data/cinegen-eval',
+                  local_dir='${ROOT}/data/cinescript-eval',
                   local_dir_use_symlinks=False)
 "
-    echo "Eval data → ${ROOT}/data/cinegen-eval/"
+    echo "Eval data → ${ROOT}/data/cinescript-eval/"
 fi
 
 echo "Done."

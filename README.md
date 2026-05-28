@@ -22,18 +22,18 @@ pip install -r requirements.txt
 # 3. Generate trajectories for the val split
 python scripts/infer.py \
     --ckpt   checkpoints/cinegen/best.pt \
-    --data_root data/cinegen-eval \
+    --data_root data/cinescript-eval \
     --out_dir results/cinegen-generated
 
 # 4. Reproduce the paper table
 python evaluate/eval_attribute_fidelity_paper.py \
-    --data_root data/cinegen-eval \
+    --data_root data/cinescript-eval \
     --clf_dir   checkpoints/clf_paper \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
 python evaluate/eval_paper_table.py \
-    --data_root      data/cinegen-eval \
+    --data_root      data/cinescript-eval \
     --alignment_dsp  checkpoints/align_dirspd_motion/best.pt \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
     --attr_json      results/attribute_fidelity.json \
@@ -71,7 +71,7 @@ Both artifacts live on HuggingFace Hub.
 | What | HF Hub repo | Size |
 |---|---|---|
 | Model + alignment + classifier checkpoints | [`Ziqi1018/CineGen-ckpts`](https://huggingface.co/Ziqi1018/CineGen-ckpts) | ~1.5GB |
-| Eval data pack (val split: matrices, captions, loglines, labels) | [`Ziqi1018/CineGen-eval`](https://huggingface.co/datasets/Ziqi1018/CineGen-eval) | ~80MB |
+| Eval data pack (val split: matrices, captions, loglines, labels) | [`Ziqi1018/CineScript-eval`](https://huggingface.co/datasets/Ziqi1018/CineScript-eval) | ~80MB |
 
 ```bash
 ./scripts/download.sh           # both
@@ -90,7 +90,7 @@ CineGEN/
 │   ├── align_dirspd_motion/best.pt     # 515MB — alignment encoder (F1/FCD/Cov/AlnScore)
 │   ├── clatr_dirspd_motion/best.pt     # 195MB — independent CLaTr alignment
 │   └── clf_paper/<setting>/...         # 322MB — attribute classifiers
-└── data/cinegen-eval/
+└── data/cinescript-eval/
     ├── index.jsonl                     # per-clip captions + loglines
     ├── matrices/<clip_id>.npz          # real 4×4 c2w GT
     ├── depth/<clip_id>.npy             # depth features (for attribute classifiers)
@@ -105,7 +105,7 @@ CineGEN/
 ```bash
 python scripts/infer.py \
     --ckpt        checkpoints/cinegen/best.pt \
-    --data_root   data/cinegen-eval \
+    --data_root   data/cinescript-eval \
     --out_dir     results/cinegen-generated \
     --batch_size  32
 ```
@@ -119,7 +119,7 @@ The default sampler picks the next masked positions by lowest hidden-state varia
 ```bash
 python scripts/infer_random_mask.py \
     --ckpt      checkpoints/cinegen/best.pt \
-    --data_root data/cinegen-eval \
+    --data_root data/cinescript-eval \
     --out_dir   results/cinegen-randmask
 ```
 
@@ -140,14 +140,14 @@ Two scripts produce the table:
 ```bash
 # Attribute fidelity (Era / Genre / Dir) — runs the 9 paper-table classifiers
 python evaluate/eval_attribute_fidelity_paper.py \
-    --data_root data/cinegen-eval \
+    --data_root data/cinescript-eval \
     --clf_dir   checkpoints/clf_paper \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
 # Paper table (combines trajectory quality + text alignment + attribute columns)
 python evaluate/eval_paper_table.py \
-    --data_root      data/cinegen-eval \
+    --data_root      data/cinescript-eval \
     --alignment_dsp  checkpoints/align_dirspd_motion/best.pt \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
     --attr_json      results/attribute_fidelity.json \

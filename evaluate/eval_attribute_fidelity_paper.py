@@ -74,7 +74,7 @@ log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 # Defaults are overridden by CLI args in main().
-ROOT = Path("data/cinegen-eval")
+ROOT = Path("data/cinescript-eval")
 CLF_DIR = REPO / "checkpoints/clf_paper"
 GEN_ROOT = REPO / "results"
 

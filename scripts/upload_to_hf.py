@@ -3,7 +3,7 @@ Upload CineGen checkpoints and/or eval data to HuggingFace Hub.
 
 Two repos are created if missing:
 - ``Ziqi1018/CineGen-ckpts`` — model checkpoints (cinegen, alignment, CLaTr, classifiers)
-- ``Ziqi1018/CineGen-eval`` — eval data pack (dataset repo)
+- ``Ziqi1018/CineScript-eval`` — eval data pack (dataset repo)
 
 Usage::
 
@@ -14,8 +14,8 @@ Usage::
 
     # Upload eval data pack
     python scripts/upload_to_hf.py data \\
-        --src data/cinegen-eval \\
-        --repo_id Ziqi1018/CineGen-eval
+        --src data/cinescript-eval \\
+        --repo_id Ziqi1018/CineScript-eval
 
 Requires ``huggingface-cli login`` (or HF_TOKEN env var) with **write** permission
 to the target repos.
@@ -112,7 +112,7 @@ def main():
 
     p_da = sub.add_parser("data", help="Upload eval data (dataset repo)")
     p_da.add_argument("--src", required=True, help="Local folder to upload")
-    p_da.add_argument("--repo_id", default="Ziqi1018/CineGen-eval")
+    p_da.add_argument("--repo_id", default="Ziqi1018/CineScript-eval")
 
     args = ap.parse_args()
     if args.cmd == "ckpts":
