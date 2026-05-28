@@ -3,8 +3,7 @@
 > CineGen is a research project on **text-conditioned camera trajectory generation for film cinematography**.
 > Given a motion caption and a scene logline, CineGen generates a 4×4 c2w camera trajectory consistent with both.
 
-This repo contains the **inference**, **evaluation**, and **visualization** code for the published CineGen model.
-Training code and full training data will follow after paper acceptance — see [TODO](#todo).
+This repo contains the **inference**, **evaluation**, and **visualization** code for the CineGen model.
 
 ---
 
@@ -181,39 +180,12 @@ Tune the smoothing with `SIGMA=<value> bash visualize/render_clip.sh ...` — la
 
 ---
 
-## Model architecture
-
-CineGen is a **MAR-style diffusion model** with:
-
-- A **Sequencer**: 1-layer Transformer with AdaLN modulation (`d=512, nhead=8, ff=4096`) that contextualizes masked trajectory tokens with text + first-pose conditioning.
-- A **Diffuser**: 3-block MLP-AdaLN that denoises individual masked tokens in raw 8-D direction+speed feature space.
-- Conditioning is injected **entirely through AdaLN** — text (CLIP ViT-B/32), first-pose (8-D direction+speed), and a separately-encoded scene logline (CLIP) are concatenated in `cond_fusion` and fed into AdaLN modulation in both sequencer and diffuser.
-- The published variant uses **IdentityAE** (no autoencoder compression): diffusion operates directly on raw 8-D dirspd features rather than a learned 64-D latent.
-
-See [`cinegen/model.py`](cinegen/model.py) for the implementation.
-
----
-
 ## TODO
 
 - [ ] Release **training code** (`scripts/train.py`, training-loss configs)
 - [ ] Release **full training data** (~410GB raw + caption/aspect-extraction pipeline)
 
-Both will be released after paper acceptance.
-
----
-
-## Citation
-
-If you use CineGen in your work, please cite (preprint forthcoming):
-
-```bibtex
-@misc{cinegen,
-  title  = {CineGen: text-conditioned camera trajectory generation for film cinematography},
-  author = {Zhou, Ziqi and colleagues},
-  year   = {2026},
-}
-```
+Coming soon...
 
 ---
 
@@ -222,7 +194,7 @@ If you use CineGen in your work, please cite (preprint forthcoming):
 CineGen builds on prior open-source work. We gratefully acknowledge the following projects and datasets:
 
 - [GenDoP](https://github.com/3DTopia/GenDoP) — Blender rendering pipeline (we patched and adapted parts of it for our renderer).
-- [The Exceptional Trajectories (ET)](https://github.com/robincourant/the-exceptional-trajectories) — trajectory generation baselines.
+- [E.T.](https://github.com/robincourant/the-exceptional-trajectories) — trajectory generation baselines.
 - [PulpMotion](https://github.com/robincourant/pulp-motion) — MAR-style architecture inspiration.
 - [ShotBench](https://huggingface.co/datasets/Vchitect/ShotBench) — shot-level benchmark data.
 - [CineTechBench](https://huggingface.co/datasets/Xinran0906/CineTechBench) — cinematic technique benchmark.
