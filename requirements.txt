@@ -1,0 +1,15 @@
+torch>=2.0
+numpy
+scipy
+scikit-learn
+timm
+transformers
+huggingface_hub
+tqdm
+matplotlib
+seaborn
+trimesh
+evo
+torchmetrics
+PyYAML
+ruamel.yaml

@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs / outputs
+*.log
+logs/
+runs/
+wandb/
+generated/
+results/
+outputs/
+
+# Checkpoints (downloaded via scripts/download.sh)
+checkpoints/*
+!checkpoints/.gitkeep
+
+# Cached HF / CLIP downloads
+.cache/huggingface/
+clip_cache/
+
+# Data — not in repo; see docs/data.md
+data/raw/
+data/processed/
