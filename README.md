@@ -156,7 +156,7 @@ python evaluate/eval_attribute.py \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
-# Paper table (combines trajectory quality + text alignment + attribute columns)
+# Full evaluation (combines trajectory quality + text alignment + attribute columns)
 python evaluate/eval.py \
     --data_root      data/cinescript-eval \
     --alignment_dsp  checkpoints/align_dirspd_motion/best.pt \
