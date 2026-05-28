@@ -5,6 +5,18 @@
 
 This repo contains the **inference**, **evaluation**, and **visualization** code for the CineGen model.
 
+## Task
+
+CineGen maps a natural-language **motion caption** (verbs like *dollies in*, *pedestals up*, *pans right*) to a camera trajectory consistent with that motion. Two examples:
+
+![Task overview](docs/assets/task.png)
+
+## Data pipeline
+
+The training data is built by triangulating three independent signals on each movie clip — a VLM-extracted scene **logline**, **movie attributes** scraped from Wikipedia/IMDb, and a **motion caption** produced by motion-tagging + LLM rewriting — paired with the camera trajectory recovered by VIPE:
+
+![Data construction pipeline](docs/assets/data_construction.png)
+
 ---
 
 ## Pipeline at a glance
