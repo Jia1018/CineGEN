@@ -1,5 +1,5 @@
 """
-Retrain the 9 paper-table classifiers (with checkpoint saving):
+Retrain the attribute classifiers (with checkpoint saving):
   1. Macro type (3 cls)            — use VLM aspect labels
   2. Era (3 cls)                   — era_three_cinematography
   3. Country (6 regions)           — country_region
@@ -12,7 +12,7 @@ Retrain the 9 paper-table classifiers (with checkpoint saving):
 
 Each is trained for both direction+speed and trajectory representations.
 Uses the BEST cfg from prior sweeps (no full re-sweep).
-Saves checkpoints to checkpoints/clf_paper/{setting}/{traj_type}_best.pt
+Saves checkpoints to checkpoints/clf/{setting}/{traj_type}_best.pt
 """
 
 import sys
@@ -49,7 +49,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 
 DATASET_ROOT = Path("/workspace/writeable/datasets/DIY_movies")
 MAPPING_PATH = DATASET_ROOT / "labeling/known_movies/clip_movie_mapping.json"
-SAVE_DIR = REPO / "checkpoints/clf_paper"
+SAVE_DIR = REPO / "checkpoints/clf"
 
 # Best configs per (setting, traj_type) extracted from flip_results.json + grouping_results.json
 # Format: (d_model, num_layers, lr, focal_gamma, balanced_sampling, seed)

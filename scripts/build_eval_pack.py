@@ -56,15 +56,15 @@ def main():
                     help="Path to the private CamGen repo (provides DiyMoviesDataset + "
                          "PAPER_SETTINGS + build_dataset)")
     ap.add_argument("--out_dir", required=True, help="Where to write the eval pack")
-    ap.add_argument("--paper_settings", nargs="+", default=None,
+    ap.add_argument("--settings", nargs="+", default=None,
                     help="Subset of PAPER_SETTINGS to compute held-out splits for; "
                          "defaults to all settings shipped in the eval.")
     args = ap.parse_args()
 
     add_internal_paths(Path(args.camgen_root))
     from data.dataset import DiyMoviesDataset, AVAILABLE_DATASETS
-    from evaluate.eval_attribute_fidelity_paper import PAPER_SETTINGS
-    from evaluate.retrain_paper_classifiers import build_dataset
+    from evaluate.eval_attribute import ATTR_SETTINGS as PAPER_SETTINGS
+    from evaluate._classifier_data import build_dataset
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -129,7 +129,7 @@ def main():
         print(f"[4/5] no clip_movie_mapping.json at {raw_mapping_p} — attribute eval will skip clips without labels")
 
     # ── 5. Compute held-out splits per setting × traj_type ──────────────
-    settings = args.paper_settings or PAPER_SETTINGS
+    settings = args.settings or PAPER_SETTINGS
     held_out: dict[str, dict[str, list[str]]] = {}
     for s in settings:
         held_out[s] = {}

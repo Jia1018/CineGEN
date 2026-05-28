@@ -1,7 +1,7 @@
 """
-Attribute fidelity evaluation using the 9 paper-table classifiers (clf_paper/).
+Attribute fidelity evaluation using the 9 attribute classifiers (clf/).
 
-Settings (matching FINAL_REPORT.md / paper Table):
+Settings (matching FINAL_REPORT.md / the table):
   1. macro_type (3 cls)
   2. era_three_cine (3 cls)
   3. country_region (6 regions)
@@ -18,7 +18,7 @@ For each (setting × traj_type representation):
   - Report F1 + balanced acc + (AUC for binary)
 
 Usage:
-    PYTHONPATH=. python evaluate/eval_attribute_fidelity_paper.py
+    PYTHONPATH=. python evaluate/eval_attribute.py
 """
 
 import json
@@ -42,7 +42,7 @@ from evaluate.data.real_label_dataset import (
     year_to_era, GENRE_COARSE_MAP, COUNTRY_REGION_MAP
 )
 from evaluate.flip_traj_wins import ERA_SCHEMES, GENRE_GROUPS
-from evaluate.retrain_paper_classifiers import build_dataset
+from evaluate._classifier_data import build_dataset
 
 
 # Cache: (setting, traj_type) -> set of clip_ids in classifier's held-out val movies
@@ -75,10 +75,10 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 
 # Defaults are overridden by CLI args in main().
 ROOT = Path("data/cinescript-eval")
-CLF_DIR = REPO / "checkpoints/clf_paper"
+CLF_DIR = REPO / "checkpoints/clf"
 GEN_ROOT = REPO / "results"
 
-PAPER_SETTINGS = [
+ATTR_SETTINGS = [
     "macro_type", "era_three_cine", "country_region",
     "genre_3_drop", "genre_3_drop_ml",
     "genre_top3", "genre_top5", "director_top3", "director_3_drop",
@@ -91,7 +91,7 @@ PAPER_SETTINGS = [
 ]
 
 # Redefined 3-class genre coarsening (must match GENRE_3_REVISED in
-# retrain_paper_classifiers.py): Drama/Romance, Comedy, Action/Thriller/Sci-Fi.
+# _classifier_data.py): Drama/Romance, Comedy, Action/Thriller/Sci-Fi.
 # Clips outside these 3 buckets (Bio/Hist, Documentary, Other-residual) get
 # None and are dropped from the eval, matching the classifier's drop_unmapped=True.
 GENRE_3_REVISED_MAP = {
@@ -106,11 +106,11 @@ GENRE_3_REVISED_MAP = {
 }
 
 
-def derive_paper_label(clip_info: dict, setting: str) -> str:
-    """Derive label for paper-table settings using matching reformulation."""
+def derive_label(clip_info: dict, setting: str) -> str:
+    """Derive label for attribute settings using matching reformulation."""
     # _traj_only variants share dataset semantics with their base setting
     if setting.endswith("_traj_only"):
-        return derive_paper_label(clip_info, setting[:-len("_traj_only")])
+        return derive_label(clip_info, setting[:-len("_traj_only")])
     info = clip_info.get("movie_info", {})
     if setting == "macro_type":
         return clip_info.get("macro_type") or info.get("macro_type")
@@ -172,7 +172,7 @@ def derive_paper_label(clip_info: dict, setting: str) -> str:
     return None
 
 
-def derive_paper_label_multi(clip_info: dict, setting: str) -> list:
+def derive_label_multi(clip_info: dict, setting: str) -> list:
     """Multi-label variant: returns LIST of labels (or [] if no genre maps).
     For genre_3_drop_ml, maps every coarse genre through GENRE_3_REVISED_MAP and
     returns the deduplicated list of merged-class labels. Clips with no mapped
@@ -180,7 +180,7 @@ def derive_paper_label_multi(clip_info: dict, setting: str) -> list:
     classifier's drop_unmapped=True training filter)."""
     # _traj_only variants share dataset semantics with their base setting
     if setting.endswith("_traj_only"):
-        return derive_paper_label_multi(clip_info, setting[:-len("_traj_only")])
+        return derive_label_multi(clip_info, setting[:-len("_traj_only")])
     info = clip_info.get("movie_info", {})
     if setting == "genre_3_drop_ml":
         out = []
@@ -200,7 +200,7 @@ def is_multi_label_setting(setting: str) -> bool:
     return base.endswith("_ml")
 
 
-def load_paper_classifier(ckpt_path: Path, traj_type: str, device):
+def load_attr_classifier(ckpt_path: Path, traj_type: str, device):
     ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
     cfg = ckpt["config"]
     label2idx = ckpt["label2idx"]
@@ -256,11 +256,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data_root", required=True,
                     help="Eval pack root (contains clip_movie_mapping.json, matrices/, depth/, held_out_splits.json)")
-    ap.add_argument("--clf_dir", default="checkpoints/clf_paper",
-                    help="Directory of paper-classifier checkpoints")
+    ap.add_argument("--clf_dir", default="checkpoints/clf",
+                    help="Directory of attribute classifier checkpoints")
     ap.add_argument("--gen_dirs", nargs="+", required=True,
                     help="Generation output directories to evaluate (each must contain metadata.jsonl)")
-    ap.add_argument("--out_json", default="results/attribute_fidelity_paper.json")
+    ap.add_argument("--out_json", default="results/attribute_fidelity.json")
     ap.add_argument("--device", default="cuda")
     args = ap.parse_args()
 
@@ -302,7 +302,7 @@ def main():
     # Only dirspd classifiers — trajectory results are never consumed by eval.py
     traj_types_to_eval = ["direction+speed"]
 
-    for setting in PAPER_SETTINGS:
+    for setting in ATTR_SETTINGS:
         log.info(f"\n=== {setting} ===")
         results[setting] = {}
         for traj_type in traj_types_to_eval:
@@ -312,7 +312,7 @@ def main():
                 log.warning(f"  [skip] {setting}/{tag}: no ckpt")
                 continue
             log.info(f"  Loading {tag} classifier...")
-            clf, label2idx, binary_pos, max_len, ckpt_is_ml = load_paper_classifier(
+            clf, label2idx, binary_pos, max_len, ckpt_is_ml = load_attr_classifier(
                 ckpt_p, traj_type, device)
             # Trust the setting-name suffix over the ckpt field — older sweep
             # script overwrote ckpts without preserving the multi_label flag.
@@ -327,7 +327,7 @@ def main():
             # metric of interest.
             if is_ml:
                 # Multi-label: derive returns list of labels per clip
-                attr_labels_ml = {cid: derive_paper_label_multi(labeled_by_id[cid], setting)
+                attr_labels_ml = {cid: derive_label_multi(labeled_by_id[cid], setting)
                                   for cid in eval_clip_ids}
                 valid_clips = [cid for cid in eval_clip_ids
                                if any(l in label2idx for l in attr_labels_ml[cid])]
@@ -344,7 +344,7 @@ def main():
                 log.info(f"    {len(valid_clips)} valid clips (all gen-eval, multi-label), "
                          f"{C} classes, avg labels/clip={float(y_true.sum())/len(valid_clips):.2f}")
             else:
-                attr_labels = {cid: derive_paper_label(labeled_by_id[cid], setting)
+                attr_labels = {cid: derive_label(labeled_by_id[cid], setting)
                                for cid in eval_clip_ids}
                 valid_clips = [cid for cid in eval_clip_ids
                                if attr_labels[cid] is not None
@@ -440,7 +440,7 @@ def main():
     print(f"\n{'='*120}")
     print(f"  PAPER-CLASSIFIER ATTRIBUTE FIDELITY")
     print(f"{'='*120}")
-    for setting in PAPER_SETTINGS:
+    for setting in ATTR_SETTINGS:
         print(f"\n--- {setting} ---")
         for tt in traj_types_to_eval:
             r = results[setting].get(f"REAL_{tt}", {})

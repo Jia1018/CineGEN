@@ -39,7 +39,7 @@ This repo bundles all checkpoints used by the CineGen public release.
 | `cinegen/best.pt` | Main CineGen model (no-AE, sep-encoded logline, first_pose, dirspd) | ~477MB |
 | `align_dirspd_motion/best.pt` | Alignment encoder for F1 / FCD / Cov / AlnScore | ~515MB |
 | `clatr_dirspd_motion/best.pt` | Independent CLaTr-style alignment encoder for CLaTr column | ~195MB |
-| `clf_paper/<setting>/{direction_speed,trajectory}_best.pt` | Attribute classifiers | ~322MB total |
+| `clf/<setting>/{direction_speed,trajectory}_best.pt` | Attribute classifiers | ~322MB total |
 
 License: CC BY-NC 4.0. See the [GitHub repo](https://github.com/Jia1018/CineGEN) for usage instructions.
 """

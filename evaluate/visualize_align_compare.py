@@ -339,7 +339,7 @@ CKPTS = {
     "ours_traj":     ("CineAlign (ours) — trajectory", "checkpoints/align_v2/trajectory_motion/best.pt",       "align"),
 }
 
-# Stats from the paper table
+# Reference stats
 STATS = {
     "clatr_dirspd": "R@1=19.7  R@5=30.5  MedR=23",
     "ours_dirspd":  "R@1=25.8  R@5=40.7  MedR=11",

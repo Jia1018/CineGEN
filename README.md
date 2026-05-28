@@ -24,10 +24,10 @@ python scripts/infer.py \
     --data_root data/cinescript-eval \
     --out_dir results/cinegen-generated
 
-# 4. Reproduce the paper table
-python evaluate/eval_attribute_fidelity_paper.py \
+# 4. Run the evaluation
+python evaluate/eval_attribute.py \
     --data_root data/cinescript-eval \
-    --clf_dir   checkpoints/clf_paper \
+    --clf_dir   checkpoints/clf \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
@@ -37,8 +37,8 @@ python evaluate/eval.py \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
     --attr_json      results/attribute_fidelity.json \
     --gen_dirs       results/cinegen-generated \
-    --out_csv        results/paper_table.csv \
-    --out_latex      results/paper_table.tex
+    --out_csv        results/eval_results.csv \
+    --out_latex      results/eval_results.tex
 
 # 5. Render a single trajectory (requires Blender 3.6.5)
 export BLENDER=/path/to/blender-3.6.5/blender
@@ -88,7 +88,7 @@ CineGEN/
 │   ├── cinegen/best.pt                 # 477MB — main model
 │   ├── align_dirspd_motion/best.pt     # 515MB — alignment encoder (F1/FCD/Cov/AlnScore)
 │   ├── clatr_dirspd_motion/best.pt     # 195MB — independent CLaTr alignment
-│   └── clf_paper/<setting>/...         # 322MB — attribute classifiers
+│   └── clf/<setting>/...         # 322MB — attribute classifiers
 └── data/cinescript-eval/
     ├── index.jsonl                     # per-clip captions + loglines
     ├── matrices/<clip_id>.npz          # real 4×4 c2w GT
@@ -124,9 +124,9 @@ python scripts/infer_random_mask.py \
 
 ---
 
-## 4. Evaluation — reproduce the paper table
+## 4. Evaluation
 
-The full paper-table eval has **10 metric columns**:
+The evaluation produces **10 metric columns**:
 
 | Group | Columns |
 |---|---|
@@ -137,10 +137,10 @@ The full paper-table eval has **10 metric columns**:
 Two scripts produce the table:
 
 ```bash
-# Attribute fidelity (Era / Genre / Dir) — runs the 9 paper-table classifiers
-python evaluate/eval_attribute_fidelity_paper.py \
+# Attribute fidelity (Era / Genre / Dir) — runs the 9 attribute classifiers
+python evaluate/eval_attribute.py \
     --data_root data/cinescript-eval \
-    --clf_dir   checkpoints/clf_paper \
+    --clf_dir   checkpoints/clf \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
@@ -151,8 +151,8 @@ python evaluate/eval.py \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
     --attr_json      results/attribute_fidelity.json \
     --gen_dirs       results/cinegen-generated \
-    --out_csv        results/paper_table.csv \
-    --out_latex      results/paper_table.tex
+    --out_csv        results/eval_results.csv \
+    --out_latex      results/eval_results.tex
 ```
 
 Add more `--gen_dirs` paths to evaluate multiple model variants side-by-side (e.g., the random-unmask ablation).

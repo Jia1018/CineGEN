@@ -33,15 +33,15 @@ Per gen dir, computes:
     - Dir.        director_3_drop_traj_only (Christopher Nolan / Wes Anderson /
                                               Steven Spielberg)
 
-Reads attribute results from results/attribute_fidelity_paper.json (must be run first).
+Reads attribute results from results/attribute_fidelity.json (must be run first).
 
 Usage:
     PYTHONPATH=. python evaluate/eval.py \
         --gen_dirs generated/pulp/baseline_ccd_native_motion ... \
         --alignment_dsp checkpoints/align_v2/direction+speed_motion/best.pt \
-        --attr_json results/attribute_fidelity_paper.json \
-        --out_csv results/paper_table.csv \
-        --out_latex results/paper_table.tex
+        --attr_json results/attribute_fidelity.json \
+        --out_csv results/eval_results.csv \
+        --out_latex results/eval_results.tex
 """
 import argparse, json, sys
 from pathlib import Path
@@ -240,9 +240,9 @@ def main():
                     default="checkpoints/clatr/direction_speed_motion/best.pt",
                     help="CLaTr ckpt trained on YOUR dirspd+motion data — independent "
                          "second alignment-encoder for cross-validation of AlnScore.")
-    ap.add_argument("--attr_json", default="results/attribute_fidelity_paper.json")
-    ap.add_argument("--out_csv", default="results/paper_table.csv")
-    ap.add_argument("--out_latex", default="results/paper_table.tex")
+    ap.add_argument("--attr_json", default="results/attribute_fidelity.json")
+    ap.add_argument("--out_csv", default="results/eval_results.csv")
+    ap.add_argument("--out_latex", default="results/eval_results.tex")
     ap.add_argument("--row_label_map", default=None,
                     help="Optional JSON mapping gen_dir basename → display label")
     ap.add_argument("--device", default="cuda",
