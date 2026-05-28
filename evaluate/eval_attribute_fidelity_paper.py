@@ -299,7 +299,7 @@ def main():
 
     results = {}
 
-    # Only dirspd classifiers — trajectory results are never consumed by eval_paper_table.py
+    # Only dirspd classifiers — trajectory results are never consumed by eval.py
     traj_types_to_eval = ["direction+speed"]
 
     for setting in PAPER_SETTINGS:

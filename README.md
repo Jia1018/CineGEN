@@ -32,7 +32,7 @@ python evaluate/eval_attribute_fidelity_paper.py \
     --gen_dirs  results/cinegen-generated \
     --out_json  results/attribute_fidelity.json
 
-python evaluate/eval_paper_table.py \
+python evaluate/eval.py \
     --data_root      data/cinescript-eval \
     --alignment_dsp  checkpoints/align_dirspd_motion/best.pt \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
@@ -146,7 +146,7 @@ python evaluate/eval_attribute_fidelity_paper.py \
     --out_json  results/attribute_fidelity.json
 
 # Paper table (combines trajectory quality + text alignment + attribute columns)
-python evaluate/eval_paper_table.py \
+python evaluate/eval.py \
     --data_root      data/cinescript-eval \
     --alignment_dsp  checkpoints/align_dirspd_motion/best.pt \
     --clatr_dsp      checkpoints/clatr_dirspd_motion/best.pt \
