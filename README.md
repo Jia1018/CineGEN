@@ -40,7 +40,7 @@ Two examples:
 
 ## 👥 Human evaluation
 
-We re-render CameraBench clips with a camera-conditioned video generator, keeping the scene, renderer settings
+We re-render [CameraBench](https://arxiv.org/abs/2504.15376) clips with [CameraAnything](https://arxiv.org/abs/2607.24591), a camera-conditioned video generator, keeping the scene, renderer settings
 and seed fixed and swapping only the trajectory each method generated from the same motion caption. In a blinded
 multi-selection study (24 participants, 720 judgements), CineGEN was selected as following the reference motion in
 70.1% of judgements and was the only selection in 30.1%. Video examples are on the

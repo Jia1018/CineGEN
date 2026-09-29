@@ -145,7 +145,7 @@
         <div class="content has-text-justified">
           <p>
             We evaluate alignment with a lightweight, purely contrastive protocol that drops the reconstruction
-            objective of CLaTr. Under both evaluators, switching the trajectory representation from
+            objective of CLaTr&nbsp;<span class="cite">[<a href="#ref-et">1</a>]</span>. Under both evaluators, switching the trajectory representation from
             <span class="dnerf">Pose9D</span> to <span class="dnerf">DirSpeed</span> improves retrieval, and in the
             joint embedding spaces matched trajectories (&bull;) and captions (&#9733;) fall into shared clusters
             instead of staying apart.
@@ -192,8 +192,8 @@
         <div class="content has-text-justified">
           <p>
             <span class="dnerf">CineScript</span> contains about 28K movie clips and 10M frames (12.0&nbsp;s per clip
-            on average), drawn from ShotBench, CineTechBench, MovieShots, CMD and the film subset of VADB and
-            re-processed through one pipeline. Each clip carries a ViPE camera trajectory, a motion caption, and a
+            on average), drawn from ShotBench&nbsp;<span class="cite">[<a href="#ref-shotbench">2</a>]</span>, CineTechBench&nbsp;<span class="cite">[<a href="#ref-cinetech">3</a>]</span>, MovieShots&nbsp;<span class="cite">[<a href="#ref-movieshots">4</a>]</span>, CMD&nbsp;<span class="cite">[<a href="#ref-cmd">5</a>]</span> and the film subset of VADB&nbsp;<span class="cite">[<a href="#ref-vadb">6</a>]</span> and
+            re-processed through one pipeline. Each clip carries a ViPE&nbsp;<span class="cite">[<a href="#ref-vipe">7</a>]</span> camera trajectory, a motion caption, and a
             screenplay-style logline (<em>[INT./EXT.] [Location] &ndash; [Time] &ndash; [Action]</em>). A subset of
             3,163 clips from roughly 1,400 films is linked to real movie metadata: release year, genre and director.
           </p>
@@ -238,9 +238,9 @@
         <img class="fig-80" src="static/images/gen_eval.png" alt="CineGEN architecture and the contrastive evaluation protocol.">
         <div class="content has-text-justified">
           <p>
-            Diffusion generators such as CCD and E.T. refine every position in parallel, while GenDoP decodes
+            Diffusion generators such as CCD&nbsp;<span class="cite">[<a href="#ref-ccd">8</a>]</span> and E.T.&nbsp;<span class="cite">[<a href="#ref-et">1</a>]</span> refine every position in parallel, while GenDoP&nbsp;<span class="cite">[<a href="#ref-gendop">9</a>]</span> decodes
             causally in a fixed order. <span class="dnerf">CineGEN</span> is a text-conditioned masked
-            autoregressive model that works directly on continuous <span class="dnerf">DirSpeed</span> tokens: a
+            autoregressive model&nbsp;<span class="cite">[<a href="#ref-mar">10</a>]</span> that works directly on continuous <span class="dnerf">DirSpeed</span> tokens: a
             Transformer sequencer reads the partially masked trajectory, and a small diffusion head samples the
             missing tokens. Because trajectory features are already low-dimensional, no autoencoder is needed.
             The model is conditioned on the motion caption, the logline and the first camera pose, and reveals
@@ -257,7 +257,7 @@
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p>
-            We compare with CCD, E.T. and GenDoP, each both as the released checkpoint (&lowast;) and retrained on
+            We compare with CCD&nbsp;<span class="cite">[<a href="#ref-ccd">8</a>]</span>, E.T.&nbsp;<span class="cite">[<a href="#ref-et">1</a>]</span> and GenDoP&nbsp;<span class="cite">[<a href="#ref-gendop">9</a>]</span>, each both as the released checkpoint (&lowast;) and retrained on
             <span class="dnerf">CineScript</span> in its native formulation. <span class="dnerf">CineGEN</span> is
             best on every metric; against the strongest retrained baseline it raises R@1 from 0.93 to 3.35 and
             reduces FCD by nearly 70%.
@@ -308,8 +308,8 @@
         <h2 class="title is-3" id="rerender">Re-rendering real footage</h2>
         <div class="content has-text-justified">
           <p>
-            To see the trajectories as camera work, we re-render CameraBench clips with a camera-conditioned video
-            generator. The scene, the renderer, its settings and the seed are fixed; only the trajectory, generated
+            To see the trajectories as camera work, we re-render CameraBench&nbsp;<span class="cite">[<a href="#ref-camerabench">11</a>]</span> clips with
+            <b>CameraAnything</b>&nbsp;<span class="cite">[<a href="#ref-cameraanything">12</a>]</span>, a camera-conditioned video generator. The scene, the renderer, its settings and the seed are fixed; only the trajectory, generated
             by each method from the same motion caption, changes. In a blinded study with 24 participants
             (720 judgements), <span class="dnerf">CineGEN</span> was selected as following the reference motion in
             70.1% of judgements and was the only version selected in 30.1%, against 28.9% and 6.2% for the
@@ -319,12 +319,32 @@
         <img class="rates-fig" src="static/images/human_eval_rates.png" alt="Selection and sole-selection rates of each method in the blinded human study.">
         <h3 class="title is-4 examples-title">Examples</h3>
         <div class="content has-text-justified">
-          <p>Each row re-renders the same clip; only the camera trajectory differs. Videos play when scrolled into view.</p>
+          <p>Each row re-renders the same clip with CameraAnything; only the camera trajectory differs. Videos play when scrolled into view.</p>
         </div>
         <div id="shots"></div>
       </div>
     </div>
 
+  </div>
+</section>
+
+<section class="section references">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-4">References</h2>
+    <ol>
+          <li id="ref-et">R. Courant et al. E.T. the Exceptional Trajectories: Text-to-camera-trajectory generation with character awareness. <i>ECCV 2024</i>. <a href="https://arxiv.org/abs/2407.01516">arXiv:2407.01516</a></li>
+          <li id="ref-shotbench">H. Liu et al. ShotBench: Expert-Level Cinematic Understanding in Vision-Language Models. <i>NeurIPS 2025</i>. <a href="https://arxiv.org/abs/2506.21356">arXiv:2506.21356</a></li>
+          <li id="ref-cinetech">X. Wang et al. CineTechBench: A Benchmark for Cinematographic Technique Understanding and Generation. <i>NeurIPS 2025</i>. <a href="https://arxiv.org/abs/2505.15145">arXiv:2505.15145</a></li>
+          <li id="ref-movieshots">A. Rao et al. A Unified Framework for Shot Type Classification Based on Subject Centric Lens. <i>ECCV 2020</i>. <a href="https://arxiv.org/abs/2008.03548">arXiv:2008.03548</a></li>
+          <li id="ref-cmd">M. Bain et al. Condensed Movies: Story Based Retrieval with Contextual Embeddings. <i>ACCV 2020</i>. <a href="https://arxiv.org/abs/2005.04208">arXiv:2005.04208</a></li>
+          <li id="ref-vadb">Q. Qiao et al. VADB: A Large-Scale Video Aesthetic Database with Professional and Multi-Dimensional Annotations. <i>NeurIPS 2025</i>. <a href="https://arxiv.org/abs/2510.25238">arXiv:2510.25238</a></li>
+          <li id="ref-vipe">J. Huang et al. ViPE: Video Pose Engine for 3D Geometric Perception. <i>CVPR 2025</i>. <a href="https://arxiv.org/abs/2508.10934">arXiv:2508.10934</a></li>
+          <li id="ref-ccd">H. Jiang et al. Cinematographic Camera Diffusion Model. <i>Eurographics 2024</i>. <a href="https://arxiv.org/abs/2402.16143">arXiv:2402.16143</a></li>
+          <li id="ref-gendop">M. Zhang et al. GenDoP: Auto-regressive Camera Trajectory Generation as a Director of Photography. <i>CVPR 2025</i>. <a href="https://arxiv.org/abs/2504.07083">arXiv:2504.07083</a></li>
+          <li id="ref-mar">T. Li et al. Autoregressive Image Generation without Vector Quantization. <i>NeurIPS 2024</i>. <a href="https://arxiv.org/abs/2406.11838">arXiv:2406.11838</a></li>
+          <li id="ref-camerabench">Z. Lin et al. Towards Understanding Camera Motions in Any Video. <i>arXiv preprint, 2025</i>. <a href="https://arxiv.org/abs/2504.15376">arXiv:2504.15376</a></li>
+          <li id="ref-cameraanything">Y. Li et al. CameraAnything: Refilming Videos with Arbitrary Camera Control. <i>ECCV 2026</i>. <a href="https://arxiv.org/abs/2607.24591">arXiv:2607.24591</a></li>
+    </ol>
   </div>
 </section>
 

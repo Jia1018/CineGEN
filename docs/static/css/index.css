@@ -158,3 +158,24 @@ body {
 .examples-title {
   margin-top: 1rem;
 }
+
+.cite {
+  white-space: nowrap;
+}
+
+.cite a {
+  color: hsl(204, 86%, 45%);
+}
+
+.references ol {
+  font-size: 0.85rem;
+  color: #4a4a4a;
+}
+
+.references li {
+  margin-bottom: 0.3rem;
+}
+
+.references li:target {
+  background: #fff8d6;
+}
