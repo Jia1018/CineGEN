@@ -24,7 +24,7 @@ generation. This repo contains the **inference**, **evaluation**, and **visualiz
 
 Each CineScript clip pairs a camera trajectory recovered by ViPE with a motion caption (motion tagging + LLM
 rewriting), a screenplay-style scene **logline** (VLM + manual review) and, where the film can be identified,
-**movie attributes** from Wikipedia/IMDb (left). Instead of per-frame poses (**Pose9D**), DirSpeed encodes each
+**movie attributes** from Wikipedia/IMDb (left). Instead of per-frame poses (**Pose9D**), **DirSpeed** encodes each
 step as a unit direction and a log-speed for translation and for rotation, an 8-D feature per frame (right).
 
 ## Task
