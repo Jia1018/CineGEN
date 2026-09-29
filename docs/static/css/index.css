@@ -25,6 +25,10 @@ body {
   margin-bottom: 0.6rem;
 }
 
+.venue-emoji {
+  font-size: 1.1em;
+}
+
 .publication-venue {
   color: #555;
   font-weight: bold;
