@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Unveiling the Value of Motion for Cinematic Camera Trajectories (NeurIPS 2026).">
+  <meta name="keywords" content="camera trajectory generation, cinematography, DirSpeed, CineScript, CineGEN">
+  <title>Unveiling the Value of Motion for Cinematic Camera Trajectories</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Unveiling the Value of Motion for<br>Cinematic Camera Trajectories</h1>
+          <div class="is-size-5 publication-venue-line">
+            <span class="publication-venue">NeurIPS 2026</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Ziqi Zhou<sup>1</sup>,</span>
+            <span class="author-block">Yujian Yuan<sup>2</sup>,</span>
+            <span class="author-block"><a href="https://laurasevilla.me/">Laura Sevilla-Lara</a><sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Edinburgh,</span>
+            <span class="author-block"><sup>2</sup>The Hong Kong University of Science and Technology</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv (coming soon)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/Jia1018/CineGEN" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/Ziqi1018/CineGen-ckpts" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-cube"></i></span>
+                  <span>Checkpoints</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/Ziqi1018/CineScript-eval" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Data</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/data_con_rep.png" alt="CineScript construction and the Pose9D versus DirSpeed representations.">
+      <h2 class="subtitle has-text-centered teaser-caption">
+        Movie clips are re-processed into camera trajectories, motion captions, screenplay-style loglines
+        and linked movie attributes (left). Instead of per-frame poses (<span class="dnerf">Pose9D</span>),
+        we represent a trajectory by the <b>direction</b> and <b>speed</b> of its frame-to-frame motion
+        (<span class="dnerf">DirSpeed</span>, right).
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Cinematic camera motion is a fundamental storytelling tool, defined not only by <em>where</em> the
+            camera is positioned in the scene, but also by <em>how</em> it moves in terms of direction and speed.
+            Recent work on camera trajectory generation and alignment to text relies on pose-centric
+            representations. While in principle a network could derive direction of movement and speed, we find
+            that in practice this might not happen. In fact, in this paper we discover that decomposing the camera
+            trajectory representation from the traditional per-frame poses to direction and speed has surprising
+            benefits across multiple tasks, including trajectory-to-text alignment as well as text-to-trajectory
+            generation.
+          </p>
+          <p>
+            To accurately evaluate the former, we introduce a simple and reliable protocol that overcomes the
+            limitations of prior evaluation baselines. For the latter, building on this representational insight,
+            we propose a novel generative model for camera trajectories, <span class="dnerf">CineGEN</span>, that
+            achieves superior performance across a variety of metrics. We also propose a novel dataset,
+            <span class="dnerf">CineScript</span>, containing movie clips that are enriched with scene descriptions
+            as well as higher-level metadata. This novel data allows us to test models' ability to capture
+            high-level cinematographic information. We show that, despite its simplicity, representing camera
+            trajectories through direction and speed improves alignment and generation while preserving
+            measurable correlations with movie-level attributes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- DirSpeed -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">DirSpeed: a motion-centric representation</h2>
+        <div class="content has-text-justified">
+          <p>
+            Human descriptions of camera work say <em>how</em> the camera moves (&ldquo;gradually dollies in and
+            pans right&rdquo;), not where it sits in a coordinate frame. Pose-centric representations make a model
+            recover that motion implicitly. <span class="dnerf">DirSpeed</span> makes it explicit: from consecutive
+            poses we take the translational step &Delta;<b>t</b><sub>t</sub> and the relative rotation
+            <b>&omega;</b><sub>t</sub>, and split each into a unit direction and a log-speed,
+          </p>
+          <p class="has-text-centered formula">
+            <b>x</b><sub>t</sub><sup>ds</sup> = [ <b>d</b><sub>t</sub><sup>tr</sup>, <b>d</b><sub>t</sub><sup>rot</sup>,
+            s<sub>t</sub><sup>tr</sup>, s<sub>t</sub><sup>rot</sup> ] &isin; &#8477;<sup>8</sup>.
+          </p>
+          <p>
+            Normalising isolates the direction of movement from its magnitude, and the logarithm compresses the
+            large dynamic range of real camera speeds. Given the first pose, a <span class="dnerf">DirSpeed</span>
+            sequence integrates back to per-frame poses deterministically.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Alignment with text</h3>
+        <div class="content has-text-justified">
+          <p>
+            We evaluate alignment with a lightweight, purely contrastive protocol that drops the reconstruction
+            objective of CLaTr. Under both evaluators, switching the trajectory representation from
+            <span class="dnerf">Pose9D</span> to <span class="dnerf">DirSpeed</span> improves retrieval, and in the
+            joint embedding spaces matched trajectories (&bull;) and captions (&#9733;) fall into shared clusters
+            instead of staying apart.
+          </p>
+        </div>
+        <div class="columns is-centered is-mobile is-multiline panels">
+          <div class="column is-half-mobile is-one-quarter-tablet has-text-centered">
+            <img src="static/images/panel_clatr_dirspd.png" alt="CLaTr with DirSpeed">
+            <p class="panel-label">CLaTr &middot; <span class="dnerf">DirSpeed</span></p>
+          </div>
+          <div class="column is-half-mobile is-one-quarter-tablet has-text-centered">
+            <img src="static/images/panel_clatr_traj.png" alt="CLaTr with Pose9D">
+            <p class="panel-label">CLaTr &middot; <span class="dnerf">Pose9D</span></p>
+          </div>
+          <div class="column is-half-mobile is-one-quarter-tablet has-text-centered">
+            <img src="static/images/panel_ours_dirspd.png" alt="Ours with DirSpeed">
+            <p class="panel-label">Ours &middot; <span class="dnerf">DirSpeed</span></p>
+          </div>
+          <div class="column is-half-mobile is-one-quarter-tablet has-text-centered">
+            <img src="static/images/panel_ours_traj.png" alt="Ours with Pose9D">
+            <p class="panel-label">Ours &middot; <span class="dnerf">Pose9D</span></p>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr><th>Evaluator</th><th>Rep.</th><th>R@1 &uarr;</th><th>R@5 &uarr;</th><th>R@10 &uarr;</th><th>MedR &darr;</th><th>#Params</th></tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="2">Ours</td><td><span class="dnerf">DirSpeed</span></td><td><b>25.2</b></td><td><b>40.7</b></td><td><b>49.0</b></td><td><b>11</b></td><td>3.6 M</td></tr>
+              <tr><td><span class="dnerf">Pose9D</span></td><td>17.8</td><td>26.5</td><td>31.4</td><td>51</td><td>3.6 M</td></tr>
+              <tr><td rowspan="2">CLaTr</td><td><span class="dnerf">DirSpeed</span></td><td><b>19.7</b></td><td><b>30.5</b></td><td><b>39.2</b></td><td><b>23</b></td><td>30 M</td></tr>
+              <tr><td><span class="dnerf">Pose9D</span></td><td>6.9</td><td>12.0</td><td>14.7</td><td>361</td><td>30 M</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CineScript -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">The <span class="dnerf">CineScript</span> dataset</h2>
+        <div class="content has-text-justified">
+          <p>
+            <span class="dnerf">CineScript</span> contains about 28K movie clips and 10M frames (12.0&nbsp;s per clip
+            on average), drawn from ShotBench, CineTechBench, MovieShots, CMD and the film subset of VADB and
+            re-processed through one pipeline. Each clip carries a ViPE camera trajectory, a motion caption, and a
+            screenplay-style logline (<em>[INT./EXT.] [Location] &ndash; [Time] &ndash; [Action]</em>). A subset of
+            3,163 clips from roughly 1,400 films is linked to real movie metadata: release year, genre and director.
+          </p>
+        </div>
+        <div class="columns is-centered is-vcentered">
+          <div class="column is-7 has-text-centered">
+            <img src="static/images/motion_primitive_histograms.png" alt="Motion primitive distribution.">
+            <p class="is-size-7 fig-note">Distribution of translation (yellow) and rotation (green) primitives.</p>
+          </div>
+          <div class="column is-5 has-text-centered">
+            <img src="static/images/traj_attr.png" alt="Dolly-in clips with different movie attributes.">
+            <p class="is-size-7 fig-note">The same coarse motion (a dolly-in) executed differently across movie attributes.</p>
+          </div>
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            Probes trained only on real trajectories predict era, genre and director above chance, and do so more
+            reliably from <span class="dnerf">DirSpeed</span> than from <span class="dnerf">Pose9D</span>. These are
+            diagnostic probes of latent correlation, not a claim of style control.
+          </p>
+        </div>
+        <div class="table-container narrow-table">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr><th>Attribute</th><th>#Class</th><th><span class="dnerf">DirSpeed</span></th><th><span class="dnerf">Pose9D</span></th><th>&Delta;</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Era</td><td>3</td><td><b>49.8</b></td><td>47.3</td><td>+2.6</td></tr>
+              <tr><td>Genre</td><td>3</td><td><b>62.1</b></td><td>60.7</td><td>+1.4</td></tr>
+              <tr><td>Director</td><td>3</td><td><b>68.2</b></td><td>51.8</td><td>+16.4</td></tr>
+            </tbody>
+          </table>
+          <p class="is-size-7 fig-note">Macro-F1 (&times;100) on real validation trajectories.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CineGEN -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3"><span class="dnerf">CineGEN</span>: masked autoregressive generation</h2>
+        <img src="static/images/gen_eval.png" alt="CineGEN architecture and the contrastive evaluation protocol.">
+        <div class="content has-text-justified">
+          <p>
+            Diffusion generators such as CCD and E.T. refine every position in parallel, while GenDoP decodes
+            causally in a fixed order. <span class="dnerf">CineGEN</span> is a text-conditioned masked
+            autoregressive model that works directly on continuous <span class="dnerf">DirSpeed</span> tokens: a
+            Transformer sequencer reads the partially masked trajectory, and a small diffusion head samples the
+            missing tokens. Because trajectory features are already low-dimensional, no autoencoder is needed.
+            The model is conditioned on the motion caption, the logline and the first camera pose, and reveals
+            positions in order of contextual confidence, so it commits to the motion progressively while keeping
+            bidirectional context over the whole shot.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            We compare with CCD, E.T. and GenDoP, each both as the released checkpoint (&lowast;) and retrained on
+            <span class="dnerf">CineScript</span> in its native formulation. <span class="dnerf">CineGEN</span> is
+            best on every metric; against the strongest retrained baseline it raises R@1 from 0.93 to 3.35 and
+            reduces FCD by nearly 70%.
+          </p>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="3">Trajectory quality</th>
+                <th colspan="3">Text&ndash;trajectory alignment</th>
+                <th colspan="3">Movie attributes</th>
+              </tr>
+              <tr>
+                <th>F1 &uarr;</th><th>FCD &darr;</th><th>Cov. &uarr;</th>
+                <th>AlignScore &uarr;</th><th>R@1 &uarr;</th><th>MedR &darr;</th>
+                <th>Era &uarr;</th><th>Genre &uarr;</th><th>Director &uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>CCD&lowast;</td><td>0.117</td><td>52.45</td><td>0.298</td><td>4.90</td><td>0.08</td><td>1032.5</td><td>44.3</td><td>46.3</td><td>12.1</td></tr>
+              <tr><td>CCD</td><td>0.128</td><td>49.19</td><td>0.270</td><td>18.82</td><td>0.43</td><td>397.0</td><td>47.2</td><td>56.3</td><td>32.7</td></tr>
+              <tr><td>E.T.&lowast;</td><td>0.015</td><td>135.74</td><td>0.034</td><td>0.00</td><td>0.08</td><td>960.0</td><td>40.7</td><td>56.7</td><td>25.0</td></tr>
+              <tr><td>E.T.</td><td>0.194</td><td>16.39</td><td>0.596</td><td>29.78</td><td>0.81</td><td>251.0</td><td>42.0</td><td>57.5</td><td>28.1</td></tr>
+              <tr><td>GenDoP&lowast;</td><td>0.175</td><td>102.97</td><td>0.085</td><td>7.63</td><td>0.23</td><td>715.5</td><td>33.5</td><td>45.6</td><td>18.1</td></tr>
+              <tr><td>GenDoP</td><td>0.234</td><td>22.10</td><td>0.586</td><td>33.11</td><td>0.93</td><td>195.0</td><td>33.2</td><td>52.5</td><td>29.9</td></tr>
+              <tr class="ours-row"><td><b><span class="dnerf">CineGEN</span> (Ours)</b></td><td><b>0.437</b></td><td><b>6.77</b></td><td><b>0.783</b></td><td><b>57.79</b></td><td><b>3.35</b></td><td><b>52.0</b></td><td><b>47.8</b></td><td><b>60.7</b></td><td><b>48.1</b></td></tr>
+            </tbody>
+          </table>
+          <p class="is-size-7 fig-note">&lowast; released pretrained checkpoint; unmarked baselines are retrained on <span class="dnerf">CineScript</span>.</p>
+        </div>
+
+        <h3 class="title is-4">Qualitative comparison</h3>
+        <img src="static/images/method_comparison.png" alt="Generated trajectories from CineGEN and the baselines for two captions.">
+        <div class="content has-text-justified">
+          <p>
+            <span class="dnerf">CineGEN</span> produces smoother, more coherent paths that follow compound
+            instructions. Starred columns are the released checkpoints.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Re-rendering study -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" id="rerender">Re-rendering real footage</h2>
+        <div class="content has-text-justified">
+          <p>
+            To see the trajectories as camera work, we re-render CameraBench clips with a camera-conditioned video
+            generator. The scene, the renderer, its settings and the seed are fixed; only the trajectory, generated
+            by each method from the same motion caption, changes. In a blinded study with 24 participants
+            (720 judgements), <span class="dnerf">CineGEN</span> was selected as following the reference motion in
+            70.1% of judgements and was the only version selected in 30.1%, against 28.9% and 6.2% for the
+            strongest baseline.
+          </p>
+        </div>
+        <img class="rates-fig" src="static/images/human_eval_rates.png" alt="Selection and sole-selection rates of each method in the blinded human study.">
+        <h3 class="title is-4 examples-title">Examples</h3>
+        <div class="content has-text-justified">
+          <p>Each row re-renders the same clip; only the camera trajectory differs. Videos play when scrolled into view.</p>
+        </div>
+        <div id="shots"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered is-size-7">
+          <p>
+            This page is adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
+            project page template, licensed under
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const SHOTS = [
+    {id: "ZkLQqywiwlY_0_1", caption: "The camera trucks left and dollies in, maintaining a fixed orientation throughout the shot."},
+    {id: "Gel59Iy3YhQ_15_1", caption: "The camera trucks left with a fixed orientation."},
+    {id: "sdidb7Z8IUc_2_1", caption: "The camera trucks right."},
+    {id: "oRt5NPY7yYA_4_2", caption: "The camera remains static with a roll of counterclockwise rotation."}
+  ];
+  // Same order and marks as the paper: unmarked = retrained on CineScript, * = released checkpoint.
+  const ROWS = [
+    ["reference", "Reference"], ["ours", "CineGEN (Ours)"],
+    ["gendop_native", "GenDoP"], ["gendop_pretrained", "GenDoP*"],
+    ["et_native", "E.T."], ["et_pretrained", "E.T.*"],
+    ["ccd_native", "CCD"], ["ccd_pretrained", "CCD*"]
+  ];
+
+  document.getElementById("shots").innerHTML = SHOTS.map(s => `
+    <div class="shot" data-shot="${s.id}">
+      <p class="shot-caption"><i>${s.caption}</i></p>
+      <div class="columns is-multiline is-mobile is-variable is-1">
+        ${ROWS.map(([m, label]) => `
+          <div class="column is-half-mobile is-one-quarter-tablet has-text-centered">
+            <video muted loop playsinline preload="none"
+                   poster="assets/study/${s.id}_${m}.jpg" src="assets/study/${s.id}_${m}.mp4"
+                   class="${m === "ours" ? "is-ours" : m === "reference" ? "is-ref" : ""}"></video>
+            <p class="tile-label ${m === "ours" ? "is-ours" : ""}">${label}</p>
+          </div>`).join("")}
+      </div>
+    </div>`).join("");
+
+  // Play the eight tiles of a shot together while it is on screen, so they stay frame-aligned.
+  function setPlaying(el, on) {
+    el.querySelectorAll("video").forEach(v => {
+      if (on) { v.currentTime = 0; v.play().catch(() => {}); } else { v.pause(); }
+    });
+  }
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => setPlaying(e.target, e.isIntersecting)),
+                                        {threshold: 0.3});
+    document.querySelectorAll(".shot").forEach(el => io.observe(el));
+  }
+</script>
+</body>
+</html>

@@ -1,21 +1,49 @@
-# CineGen
+<div align="center">
 
-> CineGen is a research project on **text-conditioned camera trajectory generation for film cinematography**.
-> Given a motion caption and a scene logline, CineGen generates a 4×4 c2w camera trajectory consistent with both.
+# Unveiling the Value of Motion for Cinematic Camera Trajectories
 
-This repo contains the **inference**, **evaluation**, and **visualization** code for the CineGen model.
+**NeurIPS 2026**
+
+Ziqi Zhou<sup>1</sup>, Yujian Yuan<sup>2</sup>, [Laura Sevilla-Lara](https://laurasevilla.me/)<sup>1</sup>
+
+<sup>1</sup>University of Edinburgh &nbsp;&nbsp; <sup>2</sup>The Hong Kong University of Science and Technology
+
+[Project page](https://jia1018.github.io/CineGEN/) · arXiv (coming soon) · [Checkpoints](https://huggingface.co/Ziqi1018/CineGen-ckpts) · [Data](https://huggingface.co/datasets/Ziqi1018/CineScript-eval)
+
+</div>
+
+Cinematic camera motion is defined not only by *where* the camera is, but by *how* it moves. We show that
+representing a camera trajectory by the **direction** and **speed** of its frame-to-frame motion
+(**DirSpeed**), instead of per-frame poses, improves both trajectory–text alignment and text-to-trajectory
+generation. This repo contains the **inference**, **evaluation**, and **visualization** code for
+**CineGEN**, our masked autoregressive trajectory generator, trained on the **CineScript** dataset.
+
+## Representation and data
+
+![CineScript construction and the Pose9D vs. DirSpeed representations](docs/static/images/data_con_rep.png)
+
+Each CineScript clip pairs a camera trajectory recovered by ViPE with a motion caption (motion tagging + LLM
+rewriting), a screenplay-style scene **logline** (VLM + manual review) and, where the film can be identified,
+**movie attributes** from Wikipedia/IMDb (left). Instead of per-frame poses (**Pose9D**), DirSpeed encodes each
+step as a unit direction and a log-speed for translation and for rotation, an 8-D feature per frame (right).
 
 ## Task
 
-CineGen maps a natural-language **motion caption** (verbs like *dollies in*, *pedestals up*, *pans right*) to a camera trajectory consistent with that motion. Two examples:
+CineGEN maps a natural-language **motion caption** (verbs like *dollies in*, *pedestals up*, *pans right*),
+together with a scene logline and the first camera pose, to a camera trajectory consistent with that motion.
+Two examples:
 
 ![Task overview](docs/assets/task.png)
 
-## Data pipeline
+## Human evaluation
 
-The training data is built by triangulating three independent signals on each movie clip — a VLM-extracted scene **logline**, **movie attributes** scraped from Wikipedia/IMDb, and a **motion caption** produced by motion-tagging + LLM rewriting — paired with the camera trajectory recovered by VIPE:
+We re-render CameraBench clips with a camera-conditioned video generator, keeping the scene, renderer settings
+and seed fixed and swapping only the trajectory each method generated from the same motion caption. In a blinded
+multi-selection study (24 participants, 720 judgements), CineGEN was selected as following the reference motion in
+70.1% of judgements and was the only selection in 30.1%. Video examples are on the
+[project page](https://jia1018.github.io/CineGEN/#rerender).
 
-![Data construction pipeline](docs/assets/data_construction.png)
+![Human evaluation selection rates](docs/static/images/human_eval_rates.png)
 
 ---
 
@@ -203,7 +231,7 @@ Coming soon...
 
 ## Acknowledgements
 
-CineGen builds on prior open-source work. We gratefully acknowledge the following projects and datasets:
+CineGEN builds on prior open-source work. We gratefully acknowledge the following projects and datasets:
 
 - [GenDoP](https://github.com/3DTopia/GenDoP) — Blender rendering pipeline (we patched and adapted parts of it for our renderer).
 - [E.T.](https://github.com/robincourant/the-exceptional-trajectories) — trajectory generation baselines.

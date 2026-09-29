@@ -1,0 +1,148 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.publication-title,
+.publication-authors,
+.teaser,
+.title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors a {
+  color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-venue-line {
+  margin-bottom: 0.6rem;
+}
+
+.publication-venue {
+  color: #555;
+  font-weight: bold;
+  font-family: 'Google Sans', sans-serif;
+}
+
+.link-block a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.link-block a[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser-caption {
+  margin-top: 1rem;
+  font-size: 1.05rem !important;
+  line-height: 1.5;
+}
+
+.section .columns + .columns {
+  margin-top: 2.5rem;
+}
+
+.section img {
+  display: block;
+  margin: 0 auto;
+}
+
+.formula {
+  font-family: 'Castoro', serif;
+  font-size: 1.15rem;
+}
+
+.panels {
+  margin-top: 0.5rem;
+}
+
+.panel-label,
+.tile-label {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+.fig-note {
+  color: #666;
+  margin-top: 0.4rem;
+}
+
+.narrow-table {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.table td,
+.table th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.table td:first-child,
+.table th:first-child {
+  text-align: left !important;
+}
+
+.results-table {
+  font-size: 0.85rem;
+}
+
+.ours-row td {
+  background: #e8f5e9 !important;
+}
+
+.shot {
+  margin-bottom: 2rem;
+}
+
+.shot-caption {
+  text-align: center;
+  margin-bottom: 0.6rem;
+  color: #363636;
+}
+
+.shot video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+  border-radius: 4px;
+}
+
+.shot video.is-ours {
+  outline: 3px solid hsl(141, 53%, 53%);
+  outline-offset: -3px;
+}
+
+.tile-label.is-ours {
+  font-weight: bold;
+}
+
+.rates-fig {
+  max-width: 900px;
+  width: 100%;
+  margin: 0.5rem auto 2rem !important;
+}
+
+.examples-title {
+  margin-top: 1rem;
+}
