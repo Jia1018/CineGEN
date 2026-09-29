@@ -2,13 +2,16 @@
 
 # Unveiling the Value of Motion for Cinematic Camera Trajectories
 
-**NeurIPS 2026**
+🎉 **NeurIPS 2026** 🎉
 
-Ziqi Zhou<sup>1</sup>, Yujian Yuan<sup>2</sup>, [Laura Sevilla-Lara](https://laurasevilla.me/)<sup>1</sup>
+[Ziqi Zhou](https://jia1018.github.io/)<sup>1</sup>, Yujian Yuan<sup>2</sup>, [Laura Sevilla-Lara](https://laurasevilla.me/)<sup>1</sup>
 
 <sup>1</sup>University of Edinburgh &nbsp;&nbsp; <sup>2</sup>The Hong Kong University of Science and Technology
 
-[Project page](https://jia1018.github.io/CineGEN/) · arXiv (coming soon) · [Checkpoints](https://huggingface.co/Ziqi1018/CineGen-ckpts) · [Data](https://huggingface.co/datasets/Ziqi1018/CineScript-eval)
+[![Project Page](https://img.shields.io/badge/Project-Page-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://jia1018.github.io/CineGEN/)
+![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)
+[![Checkpoints](https://img.shields.io/badge/%F0%9F%A4%97%20Checkpoints-Hugging%20Face-ffcc4d?style=for-the-badge)](https://huggingface.co/Ziqi1018/CineGen-ckpts)
+[![Data](https://img.shields.io/badge/%F0%9F%A4%97%20Data-CineScript-ffcc4d?style=for-the-badge)](https://huggingface.co/datasets/Ziqi1018/CineScript-eval)
 
 </div>
 
@@ -18,7 +21,7 @@ representing a camera trajectory by the **direction** and **speed** of its frame
 generation. This repo contains the **inference**, **evaluation**, and **visualization** code for
 **CineGEN**, our masked autoregressive trajectory generator, trained on the **CineScript** dataset.
 
-## Representation and data
+## 🎬 Representation and data
 
 ![CineScript construction and the Pose9D vs. DirSpeed representations](docs/static/images/data_con_rep.png)
 
@@ -27,7 +30,7 @@ rewriting), a screenplay-style scene **logline** (VLM + manual review) and, wher
 **movie attributes** from Wikipedia/IMDb (left). Instead of per-frame poses (**Pose9D**), **DirSpeed** encodes each
 step as a unit direction and a log-speed for translation and for rotation, an 8-D feature per frame (right).
 
-## Task
+## 🎯 Task
 
 CineGEN maps a natural-language **motion caption** (verbs like *dollies in*, *pedestals up*, *pans right*),
 together with a scene logline and the first camera pose, to a camera trajectory consistent with that motion.
@@ -35,7 +38,7 @@ Two examples:
 
 ![Task overview](docs/assets/task.png)
 
-## Human evaluation
+## 👥 Human evaluation
 
 We re-render CameraBench clips with a camera-conditioned video generator, keeping the scene, renderer settings
 and seed fixed and swapping only the trajectory each method generated from the same motion caption. In a blinded
@@ -47,7 +50,7 @@ multi-selection study (24 participants, 720 judgements), CineGEN was selected as
 
 ---
 
-## Pipeline at a glance
+## 🚀 Pipeline at a glance
 
 ```bash
 # 1. Clone + install
@@ -89,7 +92,7 @@ The rest of this README explains each step.
 
 ---
 
-## 1. Installation
+## 🛠️ 1. Installation
 
 - Python 3.10+
 - PyTorch 2.x with CUDA (any version compatible with your driver)
@@ -103,7 +106,7 @@ pip install -r requirements.txt
 
 ---
 
-## 2. Download checkpoints + eval data
+## 📦 2. Download checkpoints + eval data
 
 Both artifacts live on HuggingFace Hub.
 
@@ -139,7 +142,7 @@ CineGEN/
 
 ---
 
-## 3. Inference — generate trajectories
+## ✨ 3. Inference — generate trajectories
 
 ```bash
 python scripts/infer.py \
@@ -164,7 +167,7 @@ python scripts/infer_random_mask.py \
 
 ---
 
-## 4. Evaluation
+## 📊 4. Evaluation
 
 The evaluation produces **10 metric columns**:
 
@@ -199,7 +202,7 @@ Add more `--gen_dirs` paths to evaluate multiple model variants side-by-side (e.
 
 ---
 
-## 5. Visualization
+## 🎥 5. Visualization
 
 Render a single trajectory to a transparent PNG using Blender 3.6.5.
 
@@ -220,7 +223,7 @@ Tune the smoothing with `SIGMA=<value> bash visualize/render_clip.sh ...` — la
 
 ---
 
-## TODO
+## 📝 TODO
 
 - [ ] Release **training code** (`scripts/train.py`, training-loss configs)
 - [ ] Release **full training data** (~410GB raw + caption/aspect-extraction pipeline)
@@ -229,7 +232,7 @@ Coming soon...
 
 ---
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 CineGEN builds on prior open-source work. We gratefully acknowledge the following projects and datasets:
 
@@ -244,7 +247,7 @@ CineGEN builds on prior open-source work. We gratefully acknowledge the followin
 
 ---
 
-## License
+## 📄 License
 
 This project is released under [CC BY-NC 4.0](LICENSE) — research-only, non-commercial.
 The included checkpoints and eval data on HuggingFace Hub are released under the same terms. Source datasets retain their own licenses; see individual links above.

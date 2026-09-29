@@ -97,9 +97,17 @@ body {
   vertical-align: middle !important;
 }
 
-.table td:first-child,
-.table th:first-child {
+/* label columns are marked explicitly: a rowspan cell shifts :first-child onto a data cell */
+.table .lbl {
   text-align: left !important;
+}
+
+.fig-80 {
+  width: 80%;
+}
+
+@media (max-width: 768px) {
+  .fig-80 { width: 100%; }
 }
 
 .results-table {

@@ -25,7 +25,7 @@
             <span class="publication-venue">NeurIPS 2026</span>
           </div>
           <div class="is-size-5 publication-authors">
-            <span class="author-block">Ziqi Zhou<sup>1</sup>,</span>
+            <span class="author-block"><a href="https://jia1018.github.io/">Ziqi Zhou</a><sup>1</sup>,</span>
             <span class="author-block">Yujian Yuan<sup>2</sup>,</span>
             <span class="author-block"><a href="https://laurasevilla.me/">Laura Sevilla-Lara</a><sup>1</sup></span>
           </div>
@@ -121,7 +121,7 @@
     <!-- DirSpeed -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">DirSpeed: a motion-centric representation</h2>
+        <h2 class="title is-3"><span class="dnerf">DirSpeed</span>: a motion-centric representation</h2>
         <div class="content has-text-justified">
           <p>
             Human descriptions of camera work say <em>how</em> the camera moves (&ldquo;gradually dollies in and
@@ -172,12 +172,12 @@
         <div class="table-container">
           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <thead>
-              <tr><th>Evaluator</th><th>Rep.</th><th>R@1 &uarr;</th><th>R@5 &uarr;</th><th>R@10 &uarr;</th><th>MedR &darr;</th><th>#Params</th></tr>
+              <tr><th class="lbl">Evaluator</th><th>Rep.</th><th>R@1 &uarr;</th><th>R@5 &uarr;</th><th>R@10 &uarr;</th><th>MedR &darr;</th><th>#Params</th></tr>
             </thead>
             <tbody>
-              <tr><td rowspan="2">Ours</td><td><span class="dnerf">DirSpeed</span></td><td><b>25.2</b></td><td><b>40.7</b></td><td><b>49.0</b></td><td><b>11</b></td><td>3.6 M</td></tr>
+              <tr><td rowspan="2" class="lbl">Ours</td><td><span class="dnerf">DirSpeed</span></td><td><b>25.2</b></td><td><b>40.7</b></td><td><b>49.0</b></td><td><b>11</b></td><td>3.6 M</td></tr>
               <tr><td><span class="dnerf">Pose9D</span></td><td>17.8</td><td>26.5</td><td>31.4</td><td>51</td><td>3.6 M</td></tr>
-              <tr><td rowspan="2">CLaTr</td><td><span class="dnerf">DirSpeed</span></td><td><b>19.7</b></td><td><b>30.5</b></td><td><b>39.2</b></td><td><b>23</b></td><td>30 M</td></tr>
+              <tr><td rowspan="2" class="lbl">CLaTr</td><td><span class="dnerf">DirSpeed</span></td><td><b>19.7</b></td><td><b>30.5</b></td><td><b>39.2</b></td><td><b>23</b></td><td>30 M</td></tr>
               <tr><td><span class="dnerf">Pose9D</span></td><td>6.9</td><td>12.0</td><td>14.7</td><td>361</td><td>30 M</td></tr>
             </tbody>
           </table>
@@ -218,12 +218,12 @@
         <div class="table-container narrow-table">
           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <thead>
-              <tr><th>Attribute</th><th>#Class</th><th><span class="dnerf">DirSpeed</span></th><th><span class="dnerf">Pose9D</span></th><th>&Delta;</th></tr>
+              <tr><th class="lbl">Attribute</th><th>#Class</th><th><span class="dnerf">DirSpeed</span></th><th><span class="dnerf">Pose9D</span></th><th>&Delta;</th></tr>
             </thead>
             <tbody>
-              <tr><td>Era</td><td>3</td><td><b>49.8</b></td><td>47.3</td><td>+2.6</td></tr>
-              <tr><td>Genre</td><td>3</td><td><b>62.1</b></td><td>60.7</td><td>+1.4</td></tr>
-              <tr><td>Director</td><td>3</td><td><b>68.2</b></td><td>51.8</td><td>+16.4</td></tr>
+              <tr><td class="lbl">Era</td><td>3</td><td><b>49.8</b></td><td>47.3</td><td>+2.6</td></tr>
+              <tr><td class="lbl">Genre</td><td>3</td><td><b>62.1</b></td><td>60.7</td><td>+1.4</td></tr>
+              <tr><td class="lbl">Director</td><td>3</td><td><b>68.2</b></td><td>51.8</td><td>+16.4</td></tr>
             </tbody>
           </table>
           <p class="is-size-7 fig-note">Macro-F1 (&times;100) on real validation trajectories.</p>
@@ -235,7 +235,7 @@
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3"><span class="dnerf">CineGEN</span>: masked autoregressive generation</h2>
-        <img src="static/images/gen_eval.png" alt="CineGEN architecture and the contrastive evaluation protocol.">
+        <img class="fig-80" src="static/images/gen_eval.png" alt="CineGEN architecture and the contrastive evaluation protocol.">
         <div class="content has-text-justified">
           <p>
             Diffusion generators such as CCD and E.T. refine every position in parallel, while GenDoP decodes
@@ -267,7 +267,7 @@
           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth results-table">
             <thead>
               <tr>
-                <th rowspan="2">Method</th>
+                <th rowspan="2" class="lbl">Method</th>
                 <th colspan="3">Trajectory quality</th>
                 <th colspan="3">Text&ndash;trajectory alignment</th>
                 <th colspan="3">Movie attributes</th>
@@ -279,13 +279,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>CCD&lowast;</td><td>0.117</td><td>52.45</td><td>0.298</td><td>4.90</td><td>0.08</td><td>1032.5</td><td>44.3</td><td>46.3</td><td>12.1</td></tr>
-              <tr><td>CCD</td><td>0.128</td><td>49.19</td><td>0.270</td><td>18.82</td><td>0.43</td><td>397.0</td><td>47.2</td><td>56.3</td><td>32.7</td></tr>
-              <tr><td>E.T.&lowast;</td><td>0.015</td><td>135.74</td><td>0.034</td><td>0.00</td><td>0.08</td><td>960.0</td><td>40.7</td><td>56.7</td><td>25.0</td></tr>
-              <tr><td>E.T.</td><td>0.194</td><td>16.39</td><td>0.596</td><td>29.78</td><td>0.81</td><td>251.0</td><td>42.0</td><td>57.5</td><td>28.1</td></tr>
-              <tr><td>GenDoP&lowast;</td><td>0.175</td><td>102.97</td><td>0.085</td><td>7.63</td><td>0.23</td><td>715.5</td><td>33.5</td><td>45.6</td><td>18.1</td></tr>
-              <tr><td>GenDoP</td><td>0.234</td><td>22.10</td><td>0.586</td><td>33.11</td><td>0.93</td><td>195.0</td><td>33.2</td><td>52.5</td><td>29.9</td></tr>
-              <tr class="ours-row"><td><b><span class="dnerf">CineGEN</span> (Ours)</b></td><td><b>0.437</b></td><td><b>6.77</b></td><td><b>0.783</b></td><td><b>57.79</b></td><td><b>3.35</b></td><td><b>52.0</b></td><td><b>47.8</b></td><td><b>60.7</b></td><td><b>48.1</b></td></tr>
+              <tr><td class="lbl">CCD&lowast;</td><td>0.117</td><td>52.45</td><td>0.298</td><td>4.90</td><td>0.08</td><td>1032.5</td><td>44.3</td><td>46.3</td><td>12.1</td></tr>
+              <tr><td class="lbl">CCD</td><td>0.128</td><td>49.19</td><td>0.270</td><td>18.82</td><td>0.43</td><td>397.0</td><td>47.2</td><td>56.3</td><td>32.7</td></tr>
+              <tr><td class="lbl">E.T.&lowast;</td><td>0.015</td><td>135.74</td><td>0.034</td><td>0.00</td><td>0.08</td><td>960.0</td><td>40.7</td><td>56.7</td><td>25.0</td></tr>
+              <tr><td class="lbl">E.T.</td><td>0.194</td><td>16.39</td><td>0.596</td><td>29.78</td><td>0.81</td><td>251.0</td><td>42.0</td><td>57.5</td><td>28.1</td></tr>
+              <tr><td class="lbl">GenDoP&lowast;</td><td>0.175</td><td>102.97</td><td>0.085</td><td>7.63</td><td>0.23</td><td>715.5</td><td>33.5</td><td>45.6</td><td>18.1</td></tr>
+              <tr><td class="lbl">GenDoP</td><td>0.234</td><td>22.10</td><td>0.586</td><td>33.11</td><td>0.93</td><td>195.0</td><td>33.2</td><td>52.5</td><td>29.9</td></tr>
+              <tr class="ours-row"><td class="lbl"><b><span class="dnerf">CineGEN</span> (Ours)</b></td><td><b>0.437</b></td><td><b>6.77</b></td><td><b>0.783</b></td><td><b>57.79</b></td><td><b>3.35</b></td><td><b>52.0</b></td><td><b>47.8</b></td><td><b>60.7</b></td><td><b>48.1</b></td></tr>
             </tbody>
           </table>
           <p class="is-size-7 fig-note">&lowast; released pretrained checkpoint; unmarked baselines are retrained on <span class="dnerf">CineScript</span>.</p>
