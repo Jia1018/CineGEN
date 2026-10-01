@@ -3,8 +3,9 @@
 #
 # Usage:
 #   ./scripts/download.sh            # downloads both ckpts + eval data
-#   ./scripts/download.sh --ckpts    # only checkpoints (~1.5GB)
+#   ./scripts/download.sh --ckpts    # only checkpoints (~1.4GB)
 #   ./scripts/download.sh --data     # only eval data (~80MB)
+#   ./scripts/download.sh --train    # CineScript train split (~185MB), not part of the default
 
 set -euo pipefail
 
@@ -13,6 +14,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
         --ckpts) WHAT="ckpts" ;;
         --data)  WHAT="data" ;;
+        --train) WHAT="train" ;;
         --help|-h)
             grep '^#' "$0" | sed 's/^# \{0,1\}//'
             exit 0 ;;
@@ -44,6 +46,22 @@ snapshot_download(repo_id='Ziqi1018/CineScript-eval',
                   local_dir_use_symlinks=False)
 "
     echo "Eval data → ${ROOT}/data/cinescript-eval/"
+fi
+
+if [[ "$WHAT" == "train" ]]; then
+    echo "=== Downloading train data from Ziqi1018/CineScript-train ==="
+    python -c "
+from huggingface_hub import snapshot_download
+snapshot_download(repo_id='Ziqi1018/CineScript-train',
+                  repo_type='dataset',
+                  local_dir='${ROOT}/data/cinescript-train',
+                  local_dir_use_symlinks=False)
+"
+    for a in matrices depth; do
+        tar -xzf "${ROOT}/data/cinescript-train/${a}.tar.gz" -C "${ROOT}/data/cinescript-train"
+        rm "${ROOT}/data/cinescript-train/${a}.tar.gz"
+    done
+    echo "Train data → ${ROOT}/data/cinescript-train/ (matrices/ and depth/ extracted)"
 fi
 
 echo "Done."

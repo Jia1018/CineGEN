@@ -58,7 +58,7 @@ git clone https://github.com/Jia1018/CineGEN.git
 cd CineGEN
 pip install -r requirements.txt
 
-# 2. Download checkpoints (~1.5GB) + eval data (~80MB) from HuggingFace Hub
+# 2. Download checkpoints (~1.4GB) + eval data (~80MB) from HuggingFace Hub
 ./scripts/download.sh
 
 # 3. Generate trajectories for the val split
@@ -112,13 +112,15 @@ Both artifacts live on HuggingFace Hub.
 
 | What | HF Hub repo | Size |
 |---|---|---|
-| Model + alignment + classifier checkpoints | [`Ziqi1018/CineGen-ckpts`](https://huggingface.co/Ziqi1018/CineGen-ckpts) | ~1.5GB |
+| Model + alignment + classifier checkpoints | [`Ziqi1018/CineGen-ckpts`](https://huggingface.co/Ziqi1018/CineGen-ckpts) | ~1.4GB |
 | Eval data pack (val split: matrices, captions, loglines, labels) | [`Ziqi1018/CineScript-eval`](https://huggingface.co/datasets/Ziqi1018/CineScript-eval) | ~80MB |
+| Train data pack (train split, same format; 23,207 clips) | [`Ziqi1018/CineScript-train`](https://huggingface.co/datasets/Ziqi1018/CineScript-train) | ~185MB |
 
 ```bash
 ./scripts/download.sh           # both
 ./scripts/download.sh --ckpts   # only checkpoints
 ./scripts/download.sh --data    # only eval data
+./scripts/download.sh --train   # CineScript train split (not part of the default)
 ```
 
 The download script uses `huggingface_hub.snapshot_download` and does not require an HF token for these public repos.
@@ -129,9 +131,9 @@ After running, your layout should be:
 CineGEN/
 ├── checkpoints/
 │   ├── cinegen/best.pt                 # 477MB — main model
-│   ├── align_dirspd_motion/best.pt     # 515MB — alignment encoder (F1/FCD/Cov/AlnScore)
-│   ├── clatr_dirspd_motion/best.pt     # 195MB — independent CLaTr alignment
-│   └── clf/<setting>/...         # 322MB — attribute classifiers
+│   ├── align_dirspd_motion/best.pt     # 514MB — alignment evaluator (F1/FCD/Cov/AlignScore)
+│   ├── clatr_dirspd_motion/best.pt     # 194MB — independent CLaTr evaluator
+│   └── clf/<setting>/...               # 178MB — movie-attribute probes (15 settings)
 └── data/cinescript-eval/
     ├── index.jsonl                     # per-clip captions + loglines
     ├── matrices/<clip_id>.npz          # real 4×4 c2w GT
@@ -180,7 +182,7 @@ The evaluation produces **10 metric columns**:
 Two scripts produce the table:
 
 ```bash
-# Attribute fidelity (Era / Genre / Dir) — runs the 9 attribute classifiers
+# Attribute fidelity (Era / Genre / Dir) — runs the movie-attribute probes (15 settings x DirSpeed/Pose9D)
 python evaluate/eval_attribute.py \
     --data_root data/cinescript-eval \
     --clf_dir   checkpoints/clf \
@@ -226,7 +228,8 @@ Tune the smoothing with `SIGMA=<value> bash visualize/render_clip.sh ...` — la
 ## 📝 TODO
 
 - [ ] Release **training code** (`scripts/train.py`, training-loss configs)
-- [ ] Release **full training data** (~410GB raw + caption/aspect-extraction pipeline)
+- [x] Release **training data**: [`CineScript-train`](https://huggingface.co/datasets/Ziqi1018/CineScript-train) (camera trajectories, motion captions, loglines, movie attributes)
+- [ ] Release the **caption and logline extraction pipeline**
 
 Coming soon...
 
