@@ -9,7 +9,7 @@
 <sup>1</sup>University of Edinburgh &nbsp;&nbsp; <sup>2</sup>The Hong Kong University of Science and Technology
 
 [![Project Page](https://img.shields.io/badge/Project-Page-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://jia1018.github.io/CineGEN/)
-![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)
+[![arXiv](https://img.shields.io/badge/arXiv-2609.38683-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2609.38683)
 [![Checkpoints](https://img.shields.io/badge/%F0%9F%A4%97%20Checkpoints-Hugging%20Face-ffcc4d?style=for-the-badge)](https://huggingface.co/Ziqi1018/CineGen-ckpts)
 [![Data](https://img.shields.io/badge/%F0%9F%A4%97%20Data-CineScript-ffcc4d?style=for-the-badge)](https://huggingface.co/datasets/Ziqi1018/CineScript-eval)
 
@@ -229,6 +229,21 @@ Tune the smoothing with `SIGMA=<value> bash visualize/render_clip.sh ...` — la
 - [ ] Release **full training data** (~410GB raw + caption/aspect-extraction pipeline)
 
 Coming soon...
+
+---
+
+## 📖 Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@inproceedings{zhou2026unveiling,
+  title     = {Unveiling the Value of Motion for Cinematic Camera Trajectories},
+  author    = {Zhou, Ziqi and Yuan, Yujian and Sevilla-Lara, Laura},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026}
+}
+```
 
 ---
 
